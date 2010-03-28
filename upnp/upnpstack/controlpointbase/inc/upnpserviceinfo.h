@@ -46,7 +46,7 @@ NONSHARABLE_CLASS( CUpnpServiceInfo ) : public CBase, public MUpnpNotifyTimerObs
         * @param aControlPoint pointer to Control Point.
         * @param aService Upnp Service
         */
-        static CUpnpServiceInfo* CUpnpServiceInfo::NewLC(
+        static CUpnpServiceInfo* NewLC(
                             CUpnpControlPoint* aControlPoint,
                             CUpnpService* aService );
 

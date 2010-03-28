@@ -44,8 +44,8 @@ NONSHARABLE_CLASS( CUpnpCpbEmbeddedDeviceDescription ) : public CUpnpCpbDeviceDe
      * @since S60 v5.0
      */
     static CUpnpCpbEmbeddedDeviceDescription*
-            CUpnpCpbEmbeddedDeviceDescription::NewL(MUpnpCpbHttpMessageController& aMessanger,
-                                            CUpnpCpbDeviceRepository& aRepository);
+            NewL(MUpnpCpbHttpMessageController& aMessanger,
+                 CUpnpCpbDeviceRepository& aRepository);
 
     /**
      * Start processing device.
@@ -152,7 +152,7 @@ NONSHARABLE_CLASS( CUpnpCpbEmbeddedDeviceDescription ) : public CUpnpCpbDeviceDe
      * @param aDevice Target device
      * @return TRUE if device is discovered correctly
      */
-    TBool CUpnpCpbEmbeddedDeviceDescription::BuildResultListsL(CUpnpDevice* aDevice);
+    TBool BuildResultListsL(CUpnpDevice* aDevice);
 
     /**
      * Count result and create Uuids

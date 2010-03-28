@@ -87,7 +87,7 @@ public:
      * @param aError result of append function
      * @return ETrue if device is added, EFalse if not
      */
-    static TBool UpnpCpbDeviceListUtils::AddDevice(
+    static TBool AddDevice(
         CUpnpDevice* aDevice, RPointerArray<CUpnpDevice>& aList, TInt& aError);
 
     /**

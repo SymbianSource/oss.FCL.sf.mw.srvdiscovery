@@ -43,9 +43,8 @@ NONSHARABLE_CLASS( CUpnpCpbSimpleDeviceDescription ) : public CUpnpCpbDeviceDesc
      * @since S60 v5.0
      */
     static CUpnpCpbSimpleDeviceDescription*
-            CUpnpCpbSimpleDeviceDescription::NewL(
-                    MUpnpCpbHttpMessageController& aMessanger,
-                    CUpnpCpbDeviceRepository& aRepository);
+            NewL(MUpnpCpbHttpMessageController& aMessanger,
+                 CUpnpCpbDeviceRepository& aRepository);
 
     /**
      * Start processing device.

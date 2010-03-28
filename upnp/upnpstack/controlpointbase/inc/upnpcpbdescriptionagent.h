@@ -52,7 +52,7 @@ NONSHARABLE_CLASS( CUpnpCpbDescriptionAgent ) : public CBase, public MUpnpNotify
      * Two-phased constructor
      * @since S60 v5.0
      */
-    static CUpnpCpbDescriptionAgent* CUpnpCpbDescriptionAgent::NewL(
+    static CUpnpCpbDescriptionAgent* NewL(
             CUpnpControlPoint& aBaseCP,
             MUpnpCpbHttpMessageController& aMessanger,
             CUpnpCpbDeviceRepository& aRepository);
@@ -152,14 +152,14 @@ NONSHARABLE_CLASS( CUpnpCpbDescriptionAgent ) : public CBase, public MUpnpNotify
      * @since S60 v5.0
      * @return ETrue when devices was copied
      */
-    TBool CUpnpCpbDescriptionAgent::CopyResult();
+    TBool CopyResult();
 
     /**
      * Copy results to repository
      *
      * @since S60 v5.0
      */
-    void CUpnpCpbDescriptionAgent::CopyResultL();
+    void CopyResultL();
 
     /**
      * Report discovered devices to the client

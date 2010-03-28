@@ -36,7 +36,7 @@ NONSHARABLE_CLASS( CUpnpCpbInitialEventRetry ) : public CTimer
 public:
     // Constructors and destructor
     // Ownership of aMessage is passed through
-    static CUpnpCpbInitialEventRetry* CUpnpCpbInitialEventRetry::NewLC(
+    static CUpnpCpbInitialEventRetry* NewLC(
             CUpnpGenaMessage* aMessage,
             CUpnpCpbInitialEventRetryHandler& iOwner );
 

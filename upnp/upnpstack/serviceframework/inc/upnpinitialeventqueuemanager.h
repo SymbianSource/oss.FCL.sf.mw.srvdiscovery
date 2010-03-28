@@ -73,9 +73,8 @@ private:
     * @param aVariableList list of evented variables
     * @return number of evented variables
     */
-    TInt CUpnpInitialEventQueueManager::FillEventBodyL( 
-                                             TDes8& aEvent, 
-                                             const RPointerArray<CUpnpStateVariable>& aVariableList );
+    TInt FillEventBodyL( TDes8& aEvent, 
+                         const RPointerArray<CUpnpStateVariable>& aVariableList );
     /**
     * Creates event message
     * @param aMessage will be encapsulete into http transaction

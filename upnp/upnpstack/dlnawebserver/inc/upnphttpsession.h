@@ -249,7 +249,7 @@ private: // Constructors
     * @param aBuffer Buffer that has been received.
     * @return None.
     **/
-    void CUpnpHttpSession::SinglePostBufferReceivedL( TDesC8& aBuffer ); 
+    void SinglePostBufferReceivedL( TDesC8& aBuffer ); 
     
     
 

@@ -46,7 +46,7 @@ NONSHARABLE_CLASS( CUpnpCpbDiscoveryAgent ) : public CBase
      * Two-phased constructor
      * @since S60 v5.0
      */
-    static CUpnpCpbDiscoveryAgent* CUpnpCpbDiscoveryAgent::NewL(
+    static CUpnpCpbDiscoveryAgent* NewL(
         MUpnpCpbHttpMessageController& aMessanger );
 
     /**

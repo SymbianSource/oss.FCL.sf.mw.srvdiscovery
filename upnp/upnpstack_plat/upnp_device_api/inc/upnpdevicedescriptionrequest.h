@@ -64,13 +64,13 @@ public: // New functions
     IMPORT_C TPtrC8 Uri();
                     
 
-    CUpnpDeviceDescriptionRequest::~CUpnpDeviceDescriptionRequest();
+    ~CUpnpDeviceDescriptionRequest();
     
 private:
     
-    CUpnpDeviceDescriptionRequest::CUpnpDeviceDescriptionRequest( const TInetAddr& aInetAddress );
+    CUpnpDeviceDescriptionRequest( const TInetAddr& aInetAddress );
 
-    void CUpnpDeviceDescriptionRequest::ConstructL( const TDesC8& aUri );
+    void ConstructL( const TDesC8& aUri );
     
     RBuf8 iUri;
     

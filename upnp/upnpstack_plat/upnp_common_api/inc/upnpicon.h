@@ -238,7 +238,7 @@ private: // Constructors
     * @param aDepth icon depth
     * @param aMimeType icon mime type
     */
-    void CUpnpIcon::ConstructL(const TDesC16& aPath, const TDesC8& aUrl, const TInt aWidth, const TInt aHeight, const TInt aDepth, const TDesC8& aMimeType);
+    void ConstructL(const TDesC16& aPath, const TDesC8& aUrl, const TInt aWidth, const TInt aHeight, const TInt aDepth, const TDesC8& aMimeType);
     
     /**
     * By default Symbian 2nd phase constructor is private.
@@ -248,7 +248,7 @@ private: // Constructors
     * @param aDepth icon depth
     * @param aMimeType icon mime type
     */
-    void CUpnpIcon::ConstructL(const TDesC16& aPath, const TInt aWidth, const TInt aHeight, const TInt aDepth, const TDesC8& aMimeType);
+    void ConstructL(const TDesC16& aPath, const TInt aWidth, const TInt aHeight, const TInt aDepth, const TDesC8& aMimeType);
         
     
     /**

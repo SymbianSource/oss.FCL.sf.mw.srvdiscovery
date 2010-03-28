@@ -38,7 +38,7 @@ NONSHARABLE_CLASS( CUpnpCpbDeviceRepository ) : public CBase
      * Two-phased constructor
      * @since S60 v5.0
      */
-    static CUpnpCpbDeviceRepository* CUpnpCpbDeviceRepository::NewL(
+    static CUpnpCpbDeviceRepository* NewL(
         const CDesC8Array& aTargetDeviceTypes );
 
     /**
