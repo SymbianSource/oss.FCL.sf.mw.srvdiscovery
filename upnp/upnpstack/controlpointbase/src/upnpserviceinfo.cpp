@@ -233,19 +233,19 @@ CUpnpGenaMessage* CUpnpServiceInfo::CreateSubscriptionMessageL(
             {
             result = RUpnpGenaMessageFactory::SubscribeL(
                             subscribe, servAddress, aPath, timeoutBuf );
-           break;
+            break;
             }
         case EResubscription:
             {
             result = RUpnpGenaMessageFactory::ResubscribeL(
                             subscribe, servAddress, aPath, timeoutBuf );
-			break;
+            break;
             }
         case EUnSubscription:
             {
             result = RUpnpGenaMessageFactory::UnsubscribeL(
                             subscribe, servAddress, aPath);
-			break;
+            break;
             }
         default:
             {
@@ -253,16 +253,15 @@ CUpnpGenaMessage* CUpnpServiceInfo::CreateSubscriptionMessageL(
             User::Leave(KErrArgument);
             break;
             }
+
         }
     if(result == NULL)
         {
         // To avoid Coverity FORWARD_NULL errors
         User::Leave(KErrArgument);
         }
-    
     result->SetType( aType );
     iSessionId = result->SessionId();
-
     return result;
     }
 

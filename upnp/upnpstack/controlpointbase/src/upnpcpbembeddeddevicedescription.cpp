@@ -300,7 +300,6 @@ TInt CUpnpCpbEmbeddedDeviceDescription::ServiceDescriptionL(
 				    {
 					iResult = KErrNotFound;
 				    }
-
                 }
             }
         else
