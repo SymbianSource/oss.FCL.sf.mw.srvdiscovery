@@ -53,12 +53,12 @@ EXPORTS
 	_ZTI22CControlChannelHandler @ 52 NONAME
 	_ZTI24CPnPServiceDiscoveryBase @ 53 NONAME
 	_ZTI24CPnPServicePublisherBase @ 54 NONAME
-	_ZTIN4Meta18RMetaDataContainerINS_13SMetaDataEComEEE @ 55 NONAME
+	_ZTIN4Meta18RMetaDataContainerINS_13SMetaDataEComEEE @ 55 NONAME ABSENT
 	_ZTV15CControlChannel @ 56 NONAME
 	_ZTV21CControlChannelReader @ 57 NONAME
 	_ZTV21CControlChannelWriter @ 58 NONAME
 	_ZTV22CControlChannelHandler @ 59 NONAME
 	_ZTV24CPnPServiceDiscoveryBase @ 60 NONAME
 	_ZTV24CPnPServicePublisherBase @ 61 NONAME
-	_ZTVN4Meta18RMetaDataContainerINS_13SMetaDataEComEEE @ 62 NONAME
+	_ZTVN4Meta18RMetaDataContainerINS_13SMetaDataEComEEE @ 62 NONAME ABSENT
 
