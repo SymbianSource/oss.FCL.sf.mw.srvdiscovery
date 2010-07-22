@@ -26,7 +26,7 @@
 #include <f32file.h>
 #include <s32file.h>
 #include <utf.h>
-#include <xmlengdom.h>
+#include <xml/dom/xmlengdom.h>
 
 namespace UpnpDomInterface
     {
