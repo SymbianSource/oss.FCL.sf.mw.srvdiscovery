@@ -97,7 +97,7 @@ private: // Constructors
     void ConstructL(const TDesC& aDescriptionPath );
                     
     void ConstructHttpL( );
-    TInt ConvertDescriptorToInt( const TDesC8& aDes, TInt& aErr );
+    TInt ConvertDescriptorToInt( const TDesC8& aDes, TUint& aErr );
     
 private:
     CUpnpHttpServerSession*     iHttpServerSession;

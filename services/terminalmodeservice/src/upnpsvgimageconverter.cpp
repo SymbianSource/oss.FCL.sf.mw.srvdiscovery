@@ -33,7 +33,7 @@ _LIT(KThreadName,          "ImageConverterThread");
 _LIT(KSemaphoreName,       "ImageConverterSemaphore");
 
 // Constant
-const TUint KDot                = '.';
+const TUint KDot           = '.';
 
 // ============================ MEMBER FUNCTIONS ===================================
 
@@ -131,7 +131,6 @@ CUpnpSvgImageConverter::~CUpnpSvgImageConverter()
     delete iBitmap;
     delete iSvgModule;        
     iFbsSession.Disconnect();
-    iFile.Close();
     iFileSession.Close();
     OstTraceFunctionExit0( CUPNPSVGIMAGECONVERTER_CUPNPSVGIMAGECONVERTER_EXIT );
     }
@@ -154,9 +153,10 @@ void CUpnpSvgImageConverter::ConvertToBitmapL( const TDesC& aSvgFile, RBuf& aBit
     TPtrC iconFileNameWithExtension = aSvgFile.Mid((aSvgFile.LocateReverse(KDirectorySeparator))+1);
     iBitMapFilePath.Append( iconFileNameWithExtension.Left(iconFileNameWithExtension.LocateReverse(KDot)) );
     iBitMapFilePath.Append( KDotBmp );
-    
-    TInt err = iFile.Create(iFileSession,iBitMapFilePath,EFileRead|EFileWrite|EFileShareAny);
+    RFile iconFile;
+    TInt err = iconFile.Create(iFileSession,iBitMapFilePath,EFileRead|EFileWrite|EFileShareAny);
     OstTrace1( TRACE_NORMAL, CUPNPSVGIMAGECONVERTER_CONVERTTOBITMAPL, "CUpnpSvgImageConverter::ConvertToBitmapL;err=%d", err );
+    iconFile.Close();
     aBitmapFile.Close();
     if ( err == KErrAlreadyExists )
         {
@@ -184,7 +184,7 @@ void CUpnpSvgImageConverter::ConvertToBitmapL( const TDesC& aSvgFile, RBuf& aBit
          *@param iMask  Buffer for mask (alpha values) of framebuffer result
          *@return lsvgerr Error object specifying the error occured.
          */
-        lsvgerr = iSvgModule->UseDom( domHandle ,iBitmap,iMask);
+        lsvgerr = iSvgModule->UseDom( domHandle ,iBitmap,iMask );
         if ( (! lsvgerr ) || ( lsvgerr && lsvgerr->HasError() &&!lsvgerr->IsWarning() ) )
             {      
             User::Leave( KErrCancel );
@@ -260,19 +260,6 @@ void CUpnpSvgImageConverter::StartThreadL( )
     }
 
 // ---------------------------------------------------------------------------------
-// CUpnpSvgImageConverter::FileSession
-// Method to return the file session.
-// @return Returns reference to File session.
-// ---------------------------------------------------------------------------------
-// 
-RFs& CUpnpSvgImageConverter::FileSession( )
-    {
-    OstTraceFunctionEntry0( CUPNPSVGIMAGECONVERTER_FILESESSION_ENTRY );
-    OstTraceFunctionExit0( CUPNPSVGIMAGECONVERTER_FILESESSION_EXIT );
-    return iFileSession; 
-    }
-
-// ---------------------------------------------------------------------------------
 // CUpnpSvgImageConverter::Filepath
 // Method to return the path of the icon file which needs to be converted.
 // @return Returns reference to Bitmap file path.
@@ -318,8 +305,6 @@ TInt CUpnpSvgImageConverter::ImageConverter( TAny* aParam )
         }
     else
         {
-        // Meet up with the starter thread
-        RThread::Rendezvous(KErrNone);
         TRAP( err, ImageConverterL(*svgConverter) );
         }
     // Create a matching semaphore for signalling the waiting semaphore
@@ -351,9 +336,12 @@ void CUpnpSvgImageConverter::ImageConverterL( CUpnpSvgImageConverter& aSvgConver
     CleanupStack::PushL(scheduler);
     CActiveScheduler::Install( scheduler );
     // Opens the bitmap file and supplies it to the active object
+    RFs fs;
+    CleanupClosePushL( fs );
+    User::LeaveIfError(fs.Connect());
     RFile bitmapFile;
     CleanupClosePushL( bitmapFile );
-    User::LeaveIfError( bitmapFile.Open( aSvgConverter.FileSession(), aSvgConverter.Filepath(), EFileRead|EFileWrite|EFileShareAny));
+    User::LeaveIfError( bitmapFile.Open( fs, aSvgConverter.Filepath(), EFileRead|EFileWrite|EFileShareAny ));
   
     // Create an active object that is executed in this thread
     CUpnpIconConversionActive* active = CUpnpIconConversionActive::NewL( bitmapFile );
@@ -368,7 +356,7 @@ void CUpnpSvgImageConverter::ImageConverterL( CUpnpSvgImageConverter& aSvgConver
      * Thread execution ends (waiting for CActiveScheduler::Stop())
      * Cleanup the active object and scheduler
      */ 
-    CleanupStack::PopAndDestroy(UpnpString::KCRLFCRLength,scheduler);
+    CleanupStack::PopAndDestroy(UpnpString::KDoubleLineFeedLength,scheduler);
     OstTraceFunctionExit0( CUPNPSVGIMAGECONVERTER_IMAGECONVERTERL_EXIT );
     }
 

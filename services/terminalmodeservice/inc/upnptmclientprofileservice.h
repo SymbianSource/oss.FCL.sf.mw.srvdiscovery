@@ -67,7 +67,6 @@ private:
     TUpnpErrorCode GetMaxNumProfilesActionL( CUpnpAction* aAction );
     TUpnpErrorCode SetClientProfileActionL( CUpnpAction* aAction );
     TUpnpErrorCode GetClientProfileActionL( CUpnpAction* aAction );
-    TInt ConvertDescriptorToInt( const TDesC8& aDes, TUint& aIntVal );
 
 private: // Constructors 
     /**

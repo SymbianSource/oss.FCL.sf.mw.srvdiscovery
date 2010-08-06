@@ -330,7 +330,7 @@ void CUpnpTcpServer::RunL()
                 #endif
 
                 CUpnpTcpSession* sess = ConnectionAcceptedL( iClientSocket );
-                iSessionList.Append( sess );
+                iSessionList.AppendL( sess );
 
                 }
             else

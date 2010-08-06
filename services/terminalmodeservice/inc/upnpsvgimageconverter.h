@@ -20,7 +20,6 @@
 
 // Include Files
 #include <SVGEngineInterfaceImpl.h>
-#include <SvgJavaInterfaceImpl.h>
 
 /**
  * CUpnpSvgImageConverter class acts as an intermediate between the invoker and the
@@ -57,8 +56,7 @@ private:
     void ConstructL( TInt aIconWidth, TInt aIconHeight );
     // Thread creation method
     void StartThreadL( );
-    // "Getter" methods
-    RFs& FileSession( );
+    // "Getter" method to fetch file path
     const TDesC& Filepath( )const;
         
 private:
@@ -68,7 +66,6 @@ private:
     CSvgEngineInterfaceImpl*     iSvgModule;
     RBuf                         iBitMapFilePath;
     CFbsBitmap*                  iBitmap;
-    RFile                        iFile; 
     };
 
 #endif // __UPNPSVGIMAGECONVERTER_H__ 

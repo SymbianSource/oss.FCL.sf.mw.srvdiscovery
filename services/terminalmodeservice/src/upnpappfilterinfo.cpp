@@ -111,6 +111,9 @@ CUpnpAppFilterInfo::~CUpnpAppFilterInfo()
 // returns invalid argument as an error.
 // @param aKey Key name
 // @param aValue Value of the key
+// @param aDisplayInfoFlag True if info type is displayInfo, false otherwise.
+//         Default is false. It is used to distinguish "trustLevel" element 
+//         of appInfo and displayInfo.
 // @param aErr Terminal Mode error code
 // ---------------------------------------------------------------------------------
 //
@@ -196,7 +199,7 @@ void CUpnpAppFilterInfo::SetFilterInfoL( const TDesC8& aKey, const TDesC8& aValu
         iAppCategory = aValue.AllocL();
         aErr = ETerminalModeSuccess;  
         }
-    else if ( aKey.Compare(KTrustLevel) == KErrNone )                                         
+    else if (( aKey.Compare(KTrustLevel) == KErrNone ) && ( !aDisplayInfoFlag ))                                        
         {
         delete iAppTrustLevel;
         iAppTrustLevel = NULL;
@@ -217,7 +220,7 @@ void CUpnpAppFilterInfo::SetFilterInfoL( const TDesC8& aKey, const TDesC8& aValu
         iContentRules = aValue.AllocL();
         aErr = ETerminalModeSuccess;   
         }
-    else if ( ( aDisplayInfoFlag ) && ( aKey.Compare(KTrustLevel) == KErrNone ) )
+    else if (( aKey.Compare(KTrustLevel) == KErrNone ) && ( aDisplayInfoFlag ))
         {
         delete iContTrustLevel;
         iContTrustLevel = NULL;

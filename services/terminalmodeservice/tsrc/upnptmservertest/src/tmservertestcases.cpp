@@ -18,13 +18,14 @@
 
 // INCLUDE FILES
 #include <e32math.h>
-#include "tmservertest.h"
 #include <ecom/ecom.h>
-#include "testtimer.h"
-#include "discoverytesttimer.h"
 #include <upnpdevice.h>
 #include <upnptmserverdeviceinfo.h>
 #include <upnpsettings.h>
+#include "testtimer.h"
+#include "discoverytesttimer.h"
+#include "tmservertest.h"
+
 
 // LOCAL CONSTANTS AND MACROS
 _LIT8(KTestSvgMimeType,           "image/svg+xml");
@@ -55,9 +56,9 @@ _LIT8(KProfileId1,                "profileID");
 _LIT8(KBackground,                "Background");
 _LIT8(KForeground,                "Foreground");
 _LIT8(KAppListFilterValue1,       "\"icon@mimetype=\"*svg+xml*\",icon@width=\"*\",icon@height=\"*\",icon@depth=\"*\"\"");
-_LIT8(KAppListFilterValue2,       "\"name=\"*nav*\",description=\"*\",appInfo@appCategory=\"*\",displayInfo@contentCategory=\"*\",allowedProfileIDs=\"*\"\"");
-_LIT8(KAppListFilterValue3,       "\"name=\"*bluetooth*\",description=\"*\",icon@mimetype=\"*svg+xml*\",remotingInfo@protocolID=\"*\",appInfo@appCategory=\"*\",audioInfo@audioType=\"*\",resourceStatus=\"free\",signature=\"*\"\"");
-_LIT8(KAppListFilterValue4,       "\"name=\"*\",description=\"*Audio*\",icon@mimetype=\"*svg+xml*\",remotingInfo@protocolID=\"*\",appInfo@appCategory=\"*\",audioInfo@audioType=\"*\",resourceStatus=\"free\",signature=\"*\"\"");
+_LIT8(KAppListFilterValue2,       "\"name=\"*nav*\",description=\"*\",appInfo@appCategory=\"*\",appInfo@trustLevel=\"*\",displayInfo@contentCategory=\"*\",displayInfo@contentRules=\"*\",displayInfo@trustLevel=\"*\",allowedProfileIDs=\"*\"\"");
+_LIT8(KAppListFilterValue3,       "\"name=\"*bluetooth*\",description=\"*\",icon@mimetype=\"*svg+xml*\",remotingInfo@protocolID=\"*\",remotingInfo@direction=\"*\",appInfo@appCategory=\"*\",audioInfo@audioType=\"*\",resourceStatus=\"free\",signature=\"*\"\"");
+_LIT8(KAppListFilterValue4,       "\"name=\"*\",description=\"*Audio*\",icon@mimetype=\"*svg+xml*\",remotingInfo@protocolID=\"*\",remotingInfo@format=\"*\",appInfo@appCategory=\"*\",audioInfo@audioType=\"*\",resourceStatus=\"free\",signature=\"*\"\"");
 _LIT8(KWildCard,                  "*");
 _LIT(KIconPathMusicUnLaunched,          "c:\\upnptmserver\\icons\\music_unlaunched.svg");
 _LIT(KIconPathMusicLaunched,            "c:\\upnptmserver\\icons\\music_launched.svg");
@@ -245,8 +246,7 @@ TInt CTmServerTest::StartTmServerDeviceL ( TTestResult& aResult )
     iSearchDevice = CDiscoverDevice::NewL(*this);    
     iTestTimer = CTestTimer::NewL(*this);
     iTestTimer->After(15);
-    CActiveScheduler::Start();  
-    
+    CActiveScheduler::Start();      
     if ( iDeviceVerified)
         {
         _LIT( KDescription , "Terminalmode Server Device started successfully");
@@ -287,8 +287,7 @@ TInt CTmServerTest::PublishTmServerServiceL ( TTestResult& aResult )
     iSearchDevice = CDiscoverDevice::NewL(*this);    
     iTestTimer = CTestTimer::NewL(*this);
     iTestTimer->After(15);
-    CActiveScheduler::Start();  
-    
+    CActiveScheduler::Start();      
     if ( iServiceVerified)
         {
         _LIT( KDescription , "Terminalmode server Service published successfully");
@@ -328,18 +327,15 @@ TInt CTmServerTest::StopTmServerDeviceL  ( TTestResult& aResult )
     iSearchDevice = CDiscoverDevice::NewL(*this);    
     iDiscoveryTestTimer = CDiscoveryTestTimer::NewL(*this);
     iDiscoveryTestTimer->AfterDiscovery(15);
-    CActiveScheduler::Start();
- 
+    CActiveScheduler::Start(); 
     if ( iDeviceVerified  )
         {
          //Stop the tmserver device and its services
          iTmServer->StopL(); 
-        }
-    
+        }    
     iTestTimer = CTestTimer::NewL(*this);
     iTestTimer->After(15);
-    CActiveScheduler::Start();  
-       
+    CActiveScheduler::Start();         
     if ( iDeviceLostVerified )
         {
         _LIT( KDescription , "Terminalmode server Device stopped successfully");
@@ -353,7 +349,6 @@ TInt CTmServerTest::StopTmServerDeviceL  ( TTestResult& aResult )
         aResult.SetResult( KErrNone, KDescription );
         iLog->Log( KDescription );
         }
-
     delete iDiscoveryTestTimer;
     iDiscoveryTestTimer = NULL;
     delete iTestTimer;
@@ -361,7 +356,6 @@ TInt CTmServerTest::StopTmServerDeviceL  ( TTestResult& aResult )
     REComSession::FinalClose();
     return KErrNone;
     }
-
 
 TInt CTmServerTest::ReStartTmServerDeviceL ( TTestResult& aResult )
     {
@@ -386,8 +380,7 @@ TInt CTmServerTest::ReStartTmServerDeviceL ( TTestResult& aResult )
     iSearchDevice = CDiscoverDevice::NewL(*this);    
     iTestTimer = CTestTimer::NewL(*this);
     iTestTimer->After(15);
-    CActiveScheduler::Start(); 
-    
+    CActiveScheduler::Start();    
     if ( iDeviceVerified)
         {
         _LIT( KDescription , "Terminalmode server Device re-started successfully");
@@ -400,14 +393,12 @@ TInt CTmServerTest::ReStartTmServerDeviceL ( TTestResult& aResult )
         _LIT( KDescription , "Re-starting of Terminalmode server Device Failed");
         aResult.SetResult( KErrNone, KDescription );
         iLog->Log( KDescription );
-        }
-    
+        }    
     delete iTestTimer;
     iTestTimer = NULL;
     REComSession::FinalClose();
     return KErrNone;
-    }    
-
+    } 
 
 TInt CTmServerTest::RegisterDuplicateAppL(  TTestResult& aResult  )
     {   
@@ -548,7 +539,6 @@ TInt CTmServerTest::RegisterDuplicateAppsL(  TTestResult& aResult  )
     return KErrNone;
     }
 
-
 TInt CTmServerTest::UnRegisterAppL(  TTestResult& aResult  )
     {
     _LIT( KLogInfo, "UnRegister Application" );
@@ -678,7 +668,7 @@ TInt CTmServerTest::UnRegisterUnRegisteredAppsL(  TTestResult& aResult  )
     }
 
 TInt CTmServerTest::HandleEventDuplicateAppStatusUpdateL( TTestResult& aResult )
- {
+    {
     _LIT( KLogInfo, "Handle Event For Duplicate AppStatus Update" );
     iLog->Log( KLogInfo ); 
           
@@ -696,14 +686,13 @@ TInt CTmServerTest::HandleEventDuplicateAppStatusUpdateL( TTestResult& aResult )
     iSearchDevice = CDiscoverDevice::NewL(*this);          
     iDiscoveryTestTimer = CDiscoveryTestTimer::NewL(*this);
     iDiscoveryTestTimer->AfterDiscovery(15);
-    CActiveScheduler::Start();     
-          
+    CActiveScheduler::Start();   
+    	         
     if ( iDeviceVerified  )
          { 
              //Subscribe to Services
            iSearchDevice->SubscribeToServiceL();         
-          }  
-  
+          }    
     RArray<TUint> updatedAppIdList;
     updatedAppIdList.Append(KAppId1Value);
     updatedAppIdList.Append(KAppId1Value);
@@ -737,7 +726,7 @@ TInt CTmServerTest::HandleEventDuplicateAppStatusUpdateL( TTestResult& aResult )
   }
 
 TInt CTmServerTest::HandleEventProfileIdListStatusUpdateL( TTestResult& aResult )
- {
+    {
     _LIT( KLogInfo, "Handle Event For ProfileIdList Status Update" );
     iLog->Log( KLogInfo ); 
     
@@ -767,8 +756,7 @@ TInt CTmServerTest::HandleEventProfileIdListStatusUpdateL( TTestResult& aResult 
     UnusedProfileIdList.Append(5);
     UnusedProfileIdList.Append(6);
     //Update the list of profile IDs for profiles which are not used
-    iTmServer->UpdateUnusedProfileIdsL(UnusedProfileIdList);  
-    
+    iTmServer->UpdateUnusedProfileIdsL(UnusedProfileIdList);     
     iTestTimer = CTestTimer::NewL(*this);
     iTestTimer->After(15);
     CActiveScheduler::Start();
@@ -794,11 +782,11 @@ TInt CTmServerTest::HandleEventProfileIdListStatusUpdateL( TTestResult& aResult 
        iTestTimer = NULL;
        REComSession::FinalClose();
        return KErrNone;
-}
+   }
 
 TInt CTmServerTest::HandleLaunchAppActionL ( TTestResult& aResult )
     {
-    _LIT( KLogInfo, "Handle LaunchApp Command" );
+    _LIT( KLogInfo , "Handle LaunchApp Command" );
     iLog->Log( KLogInfo );
     
     iTmServerDeviceType = ETrue;
@@ -817,7 +805,7 @@ TInt CTmServerTest::HandleLaunchAppActionL ( TTestResult& aResult )
     iDiscoveryTestTimer = CDiscoveryTestTimer::NewL(*this);
     iDiscoveryTestTimer->AfterDiscovery(15);
     CActiveScheduler::Start(); 
-
+    	
     if ( iDeviceVerified  )
         {
          //Launch the application remotely by specifying appId and profileId 
@@ -1661,8 +1649,8 @@ TInt CTmServerTest::HandleEventAppStatusUpdateL( TTestResult& aResult )
     iSearchDevice = CDiscoverDevice::NewL(*this);    
     iDiscoveryTestTimer = CDiscoveryTestTimer::NewL(*this);
     iDiscoveryTestTimer->AfterDiscovery(15);
-    CActiveScheduler::Start();  
-       
+    CActiveScheduler::Start(); 
+    	       
     if ( iDeviceVerified  )
          {
           //Subscribes to a service 
@@ -1702,7 +1690,7 @@ TInt CTmServerTest::HandleEventAppStatusUpdateL( TTestResult& aResult )
   }
 
 TInt CTmServerTest::HandleEventAppListUpdateL( TTestResult& aResult )
- {
+    {
     _LIT( KLogInfo, "Handle Event For AppList Update" );
     iLog->Log( KLogInfo ); 
        
@@ -3680,8 +3668,8 @@ TTerminalModeErrorCode CTmServerTest::OnSetClientProfile(TUint aProfileId, const
        // different mime type and different dimension
        clientIconPref = CUpnpTmClientIconPref::NewL(1);
        clientIconPref->SetMimeTypeL(_L8("image/bmp"));
-       clientIconPref->SetWidth(60);
-       clientIconPref->SetHeight(60);   
+       clientIconPref->SetWidth(70);
+       clientIconPref->SetHeight(80);   
        }
     else if ( aProfileId == 2 )
        {
@@ -3694,8 +3682,8 @@ TTerminalModeErrorCode CTmServerTest::OnSetClientProfile(TUint aProfileId, const
        // same mime type but different dimension
        clientIconPref = CUpnpTmClientIconPref::NewL(3);
        clientIconPref->SetMimeTypeL(_L8("image/svg+xml"));
-       clientIconPref->SetWidth(36);
-       clientIconPref->SetHeight(44);       
+       clientIconPref->SetWidth(100);
+       clientIconPref->SetHeight(100);       
        }
     else if ( aProfileId == 4 )
        {

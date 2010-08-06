@@ -178,12 +178,12 @@ TUpnpErrorCode CUpnpTmClientProfileService::SetClientProfileActionL( CUpnpAction
     {
     OstTraceFunctionEntry0( CUPNPTMCLIENTPROFILESERVICE_SETCLIENTPROFILEACTIONL_ENTRY );
     TUint profileIdInt;
-    // Validates the input parameter(profileID)
-    if ( ConvertDescriptorToInt( aAction->ArgumentValue(KProfileId), profileIdInt ) != KErrNone )
-         {
-         OstTrace1( TRACE_ERROR, CUPNPTMCLIENTPROFILESERVICE_SETCLIENTPROFILEACTIONL, "CUpnpTmClientProfileService::SetClientProfileActionL;profileIdInt=%d", profileIdInt );      
-         return EInvalidArgs;   // invalid profile ID
-         }  
+    // Fetch the value for profile ID argument
+    TLex8 lex( aAction->ArgumentValue(KProfileId) );
+    lex.Val(profileIdInt);
+    OstTrace1( TRACE_ERROR, CUPNPTMCLIENTPROFILESERVICE_SETCLIENTPROFILEACTIONL, "CUpnpTmClientProfileService::SetClientProfileActionL;profileIdInt=%d", profileIdInt );      
+    
+    // Fetch the value for client profile argument
     const TDesC8& clientProfile = aAction->ArgumentValue(KClientProfile);
     
     RBuf8 resultProfileBuf;
@@ -211,13 +211,11 @@ TUpnpErrorCode CUpnpTmClientProfileService::GetClientProfileActionL( CUpnpAction
     { 
     OstTraceFunctionEntry0( CUPNPTMCLIENTPROFILESERVICE_GETCLIENTPROFILEACTIONL_ENTRY );
     TUint profileIdInt;
-    // Validates the input parameter(profileID)
-    if ( ConvertDescriptorToInt( aAction->ArgumentValue(KProfileId), profileIdInt ) != KErrNone )
-         {
-         OstTrace1( TRACE_ERROR, CUPNPTMCLIENTPROFILESERVICE_GETCLIENTPROFILEACTIONL, "CUpnpTmClientProfileService::GetClientProfileActionL;profileIdInt=%d", profileIdInt );        
-         return EInvalidArgs;   // invalid profile ID
-         }
-    
+    // Fetch the value for profile ID argument
+    TLex8 lex( aAction->ArgumentValue(KProfileId) );
+    lex.Val(profileIdInt);
+    OstTrace1( TRACE_ERROR, CUPNPTMCLIENTPROFILESERVICE_GETCLIENTPROFILEACTIONL, "CUpnpTmClientProfileService::GetClientProfileActionL;profileIdInt=%d", profileIdInt );        
+
     RBuf8 resultProfileBuf;
     TTerminalModeErrorCode ret = iTmServerImpl.GetClientProfile(profileIdInt,resultProfileBuf );
     
@@ -245,24 +243,6 @@ void CUpnpTmClientProfileService::UnUsedProfileIdEventL(const TDesC8& aUnusedPro
     OstTraceFunctionEntry0( CUPNPTMCLIENTPROFILESERVICE_UNUSEDPROFILEIDEVENTL_ENTRY );
     SetStateVariableL( KArgTypeUnusedProfileIds, aUnusedProfileIdBuffer, EFalse);
     OstTraceFunctionExit0( CUPNPTMCLIENTPROFILESERVICE_UNUSEDPROFILEIDEVENTL_EXIT );
-    }
-
-// ---------------------------------------------------------------------------------
-// CUpnpTmClientProfileService::ConvertDescriptorToInt
-// Utility method to convert descriptor to integer
-// @param aDes descriptor
-// @param[out] aIntVal Integer value
-// @return Returns error code
-// ---------------------------------------------------------------------------------
-//
-TInt CUpnpTmClientProfileService::ConvertDescriptorToInt( const TDesC8& aDes, TUint& aIntVal )
-    {
-    OstTraceFunctionEntry0( CUPNPTMCLIENTPROFILESERVICE_CONVERTDESCRIPTORTOINT_ENTRY );
-    aIntVal = KErrNone;
-    TLex8 lex( aDes );
-    OstTrace1( TRACE_NORMAL, CUPNPTMCLIENTPROFILESERVICE_CONVERTDESCRIPTORTOINT, "CUpnpTmClientProfileService::ConvertDescriptorToInt;aIntVal=%u", aIntVal );
-    OstTraceFunctionExit0( CUPNPTMCLIENTPROFILESERVICE_CONVERTDESCRIPTORTOINT_EXIT );
-    return lex.Val(aIntVal);  
     }
 
 //End of File

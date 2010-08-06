@@ -184,6 +184,7 @@ void CUpnpTmAppServerService::ActionReceivedLD( CUpnpAction* aAction )
 TUpnpErrorCode CUpnpTmAppServerService::GetAppListActionL( CUpnpAction* aAction )
    {
    OstTraceFunctionEntry0( CUPNPTMAPPSERVERSERVICE_GETAPPLISTACTIONL_ENTRY );
+   // Fetch the value for app listing filter argument
    const TDesC8& filter = aAction->ArgumentValue(KAppFilter);
    // Validate the AppListing filter string
    // AppListingFilter input argument can contain wither wildcard(*) or
@@ -195,14 +196,11 @@ TUpnpErrorCode CUpnpTmAppServerService::GetAppListActionL( CUpnpAction* aAction 
        return EInvalidArgs;  // invalid AppListingFilter argument
        }
    
-   TInt profileIdInt;
-   // Validate the profileID
-   if ( ConvertDescriptorToInt( aAction->ArgumentValue(KProfileId), profileIdInt ) != KErrNone )
-        {
-        OstTrace1( TRACE_ERROR, CUPNPTMAPPSERVERSERVICE_GETAPPLISTACTIONL, "CUpnpTmAppServerService::GetAppListActionL;profileIdInt=%d", profileIdInt );
-        return EInvalidArgs;   // invalid profile ID
-        }
-
+   // Fetch the value for profile ID argument
+   TUint profileIdInt;
+   ConvertDescriptorToInt( aAction->ArgumentValue(KProfileId), profileIdInt );
+   OstTrace1( TRACE_NORMAL, CUPNPTMAPPSERVERSERVICE_GETAPPLISTACTIONL, "CUpnpTmAppServerService::GetAppListActionL;profileIdInt=%u", profileIdInt );
+   
    TTerminalModeErrorCode ret;
    const TDesC8& appList = iTmServerImpl.GetApplicationListL( filter,profileIdInt,ret );
    if ( ret != ETerminalModeSuccess )
@@ -224,13 +222,13 @@ TUpnpErrorCode CUpnpTmAppServerService::GetAppListActionL( CUpnpAction* aAction 
 TUpnpErrorCode CUpnpTmAppServerService::LaunchAppActionL( CUpnpAction* aAction )
    {
    OstTraceFunctionEntry0( CUPNPTMAPPSERVERSERVICE_LAUNCHAPPACTIONL_ENTRY );
-   TInt appIdInt;  
-   TInt profileIdInt;
+   TUint appIdInt;  
+   TUint profileIdInt;
    // Validates the input parameters
    if ( ( ConvertDescriptorToInt( aAction->ArgumentValue(KAppId), appIdInt ) != KErrNone )
        || ( ConvertDescriptorToInt( aAction->ArgumentValue(KProfileId), profileIdInt ) != KErrNone ))
         {
-        OstTraceExt2( TRACE_ERROR, CUPNPTMAPPSERVERSERVICE_LAUNCHAPPACTIONL, "CUpnpTmAppServerService::LaunchAppActionL;appIdInt=%d;profileIdInt=%d", appIdInt, profileIdInt );
+        OstTraceExt2( TRACE_ERROR, CUPNPTMAPPSERVERSERVICE_LAUNCHAPPACTIONL, "CUpnpTmAppServerService::LaunchAppActionL;appIdInt=%u;profileIdInt=%u", appIdInt, profileIdInt );
         return EInvalidArgs;   // either invalid app ID or invalid profile ID  
         }
 
@@ -262,12 +260,12 @@ TUpnpErrorCode CUpnpTmAppServerService::TerminateAppActionL( CUpnpAction* aActio
    { 
    OstTraceFunctionEntry0( CUPNPTMAPPSERVERSERVICE_TERMINATEAPPACTIONL_ENTRY );
    // Validates the input parameters
-   TInt appIdInt;   
-   TInt profileIdInt;
+   TUint appIdInt;   
+   TUint profileIdInt;
    if ( ( ConvertDescriptorToInt( aAction->ArgumentValue(KAppId), appIdInt ) != KErrNone )
        || ( ConvertDescriptorToInt( aAction->ArgumentValue(KProfileId), profileIdInt ) != KErrNone ))
         {
-        OstTraceExt2( TRACE_ERROR, CUPNPTMAPPSERVERSERVICE_TERMINATEAPPACTIONL, "CUpnpTmAppServerService::TerminateAppActionL;appIdInt=%d;profileIdInt=%d", appIdInt, profileIdInt );
+        OstTraceExt2( TRACE_ERROR, CUPNPTMAPPSERVERSERVICE_TERMINATEAPPACTIONL, "CUpnpTmAppServerService::TerminateAppActionL;appIdInt=%u;profileIdInt=%u", appIdInt, profileIdInt );
         return EInvalidArgs;   // either invalid app ID or invalid profile ID  
         }
    
@@ -296,11 +294,11 @@ TUpnpErrorCode CUpnpTmAppServerService::GetAppStatusActionL( CUpnpAction* aActio
    const TDesC8& appId= aAction->ArgumentValue(KAppId);
    // Check if the appID argument has either wildcard character(*)
    // or a valid integer as its value
-   TInt appIdInt;
+   TUint appIdInt;
    if ( (( appId.Compare( KWildCard ) != KErrNone ) &&
           ( ConvertDescriptorToInt( appId, appIdInt ) != KErrNone )) )
         {
-        OstTrace1( TRACE_ERROR, CUPNPTMAPPSERVERSERVICE_GETAPPSTATUSACTIONL, "CUpnpTmAppServerService::GetAppStatusActionL;appIdInt=%d", appIdInt );      
+        OstTrace1( TRACE_ERROR, CUPNPTMAPPSERVERSERVICE_GETAPPSTATUSACTIONL, "CUpnpTmAppServerService::GetAppStatusActionL;appIdInt=%u", appIdInt );
         return EInvalidArgs; // invalid input argument
         }
    RBuf8 appStatusBuf;
@@ -383,18 +381,18 @@ void CUpnpTmAppServerService::AppListUpdateEventL( const TDesC8& aListUpdateBuff
 
 // ---------------------------------------------------------------------------------
 // CUpnpTmAppServerService::ConvertDescriptorToInt
-// Utility method to convert descriptor to integer
+// Utility method to convert descriptor's data to integer
 // @param aDes   Descriptor whose integer equivalent have to be calculated
 // @param aIntVal[out] Integer value
-// @return returns error code
+// @return Returns error code
 // ---------------------------------------------------------------------------------
 //
-TInt CUpnpTmAppServerService::ConvertDescriptorToInt( const TDesC8& aDes, TInt& aIntVal )
+TInt CUpnpTmAppServerService::ConvertDescriptorToInt( const TDesC8& aDes, TUint& aIntVal )
     {
     OstTraceFunctionEntry0( CUPNPTMAPPSERVERSERVICE_CONVERTDESCRIPTORTOINT_ENTRY );
-    aIntVal = KErrGeneral;
+    aIntVal = KErrNone;
     TLex8 lex( aDes );
-    OstTrace1( TRACE_NORMAL, CUPNPTMAPPSERVERSERVICE_CONVERTDESCRIPTORTOINT, "CUpnpTmAppServerService::ConvertDescriptorToInt;aIntVal=%d", aIntVal );
+    OstTrace1( TRACE_NORMAL, CUPNPTMAPPSERVERSERVICE_CONVERTDESCRIPTORTOINT, "CUpnpTmAppServerService::ConvertDescriptorToInt;aIntVal=%u", aIntVal );
     OstTraceFunctionExit0( CUPNPTMAPPSERVERSERVICE_CONVERTDESCRIPTORTOINT_EXIT );
     return lex.Val(aIntVal);
     }
