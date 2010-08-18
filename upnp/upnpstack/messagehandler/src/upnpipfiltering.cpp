@@ -241,7 +241,7 @@ void CUpnpIPFiltering::IPList2Des8L()
         }
 
     // create heap descriptor
-    iListBuf.Create( buf->Size() );
+    iListBuf.CreateL( buf->Size() );
     buf->Read( 0, iListBuf, buf->Size() );
 
     // clean up;

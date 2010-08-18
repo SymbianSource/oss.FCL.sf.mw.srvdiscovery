@@ -87,7 +87,7 @@ CUpnpHttpBuffer::CUpnpHttpBuffer( CUpnpHttpSession* aSession, TBool aToBeSavedIn
 //
 void CUpnpHttpBuffer::ConstructL()
 	{
-	iBuffer.Create( 0 );
+	iBuffer.CreateL( 0 );
 	iChunkParser = CUpnpHttpChunkParser::NewL();
 	}
 

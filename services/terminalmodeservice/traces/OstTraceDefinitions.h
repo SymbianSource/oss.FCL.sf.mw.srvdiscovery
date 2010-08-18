@@ -1,5 +1,5 @@
-/*
-* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies). 
+/**
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -11,20 +11,12 @@
 *
 * Contributors:
 *
-* Description:  Build information for srvdiscovery
+* Description: OST trace file.
 *
 */
 
+#ifndef __OSTTRACEDEFINITIONS_H__
+#define __OSTTRACEDEFINITIONS_H__
 
-PRJ_PLATFORMS
-DEFAULT
-
-PRJ_EXPORTS
-
-PRJ_MMPFILES
-#include "../upnp/group/bld.inf"
-#include "../services/group/bld.inf"
-#include "../servicediscoveryandcontrol/pnp/group/bld.inf"
-
-
-PRJ_TESTMMPFILES
+#include <opensystemtrace.h>
+#endif
