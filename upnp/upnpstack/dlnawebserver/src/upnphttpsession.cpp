@@ -1445,7 +1445,7 @@ void CUpnpHttpSession::NotifyUpperLayersOnPostL()
 
     CUpnpHttpHeader* hdr = List->First();
 
-	if(hdr != NULL)
+    if(hdr != NULL)
 	{
 		HBufC8* newHeader = NULL;
 		newHeader = HBufC8::NewLC( KTransferPending801().Length() );
@@ -1456,6 +1456,7 @@ void CUpnpHttpSession::NotifyUpperLayersOnPostL()
 
 		CleanupStack::PopAndDestroy( newHeader );
 	}
+
     msg->SetOutFilenameL( *iOutFilename );
     CleanupStack::Pop( msg );
     NotifyUpperLayerLD( msg );

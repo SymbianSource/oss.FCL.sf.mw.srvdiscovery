@@ -215,7 +215,7 @@ void CUpnpCpbDescriptionAgent::ConstructAndValidateDeviceTreeL(
             RBuf8 description;
             if(deviceDescription->UrlBase().Length()!=0)
                 {
-                description.Create(aDeviceDescPath.Length()+deviceDescription->UrlBase().Length());
+                description.CreateL(aDeviceDescPath.Length()+deviceDescription->UrlBase().Length());
                 description.Copy(deviceDescription->UrlBase());
                 TInt firstSlash(aDeviceDescPath.Locate( KSlash8()[0] ) );		
                 if(firstSlash==0)
@@ -228,7 +228,7 @@ void CUpnpCpbDescriptionAgent::ConstructAndValidateDeviceTreeL(
             else
                 {
                 TBuf<25> ipBuf;
-                description.Create(KUrlMaxLength);
+                description.CreateL(KUrlMaxLength);
                 description.Copy(KHttp());
                 
                 aAddr.Output ( ipBuf);

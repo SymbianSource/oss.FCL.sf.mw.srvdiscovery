@@ -544,7 +544,7 @@ EXPORT_C void CUpnpDevice::GetAllDevices( RPointerArray<CUpnpDevice>& aDevices )
 
     for (TInt i = 0; i < iDeviceList.Count(); i++ )
         {
-        aDevices.Append( iDeviceList[i] );
+        TRAP_IGNORE(aDevices.AppendL( iDeviceList[i] ));
         iDeviceList[i]->GetAllDevices(aDevices);
         }
 

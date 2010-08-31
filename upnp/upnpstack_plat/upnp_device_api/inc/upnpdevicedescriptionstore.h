@@ -20,9 +20,9 @@
 #define C_CUPNPDEVICEDESCRIPTIONSTORE_H
 
 #include <e32base.h> 
-#include <xmlengdom.h> 
-#include <xmlengdocument.h>
-#include <xmlengdomparser.h>
+#include <xml/dom/xmlengdom.h> 
+#include <xml/dom/xmlengdocument.h>
+#include <xml/dom/xmlengdomparser.h>
 #include <upnpicon.h>
 
 class CUpnpDevice;
