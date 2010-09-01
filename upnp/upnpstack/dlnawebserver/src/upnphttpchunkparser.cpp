@@ -107,7 +107,6 @@ TInt CUpnpHttpChunkParser::Parse(TDes8& aBuffer, TInt& aPos)
             {
             case EUnknown:
                 iContext = EHeader;
-                break;
             case EHeader:
                 interrupt = ParseHeader(aBuffer,aPos);
                 break;

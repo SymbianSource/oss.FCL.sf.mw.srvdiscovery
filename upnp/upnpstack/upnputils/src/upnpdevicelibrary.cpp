@@ -631,7 +631,7 @@ TBool CUpnpDeviceLibrary::AddDeviceL(CUpnpSsdpMessage *aMessage)
                 element->SetRenew(CUpnpTimeoutElement::EOnce);
                 element->SetTimeout(aMessage->CacheControl());
                 element->SetLocal(EFalse);
-                iElementArray.AppendL(element);
+                iElementArray.Append(element);
                 
                 CleanupStack::Pop(); // element
                 }
@@ -662,7 +662,7 @@ TBool CUpnpDeviceLibrary::AddDeviceL(CUpnpSsdpMessage *aMessage)
                     element->SetRenew(CUpnpTimeoutElement::EOnce);
                     element->SetTimeout(aMessage->CacheControl());
                     element->SetLocal(EFalse);
-                    iElementArray.AppendL(element);
+                    iElementArray.Append(element);
                 
                     CleanupStack::Pop(); // element
                     }
@@ -679,7 +679,7 @@ TBool CUpnpDeviceLibrary::AddDeviceL(CUpnpSsdpMessage *aMessage)
         element->SetRenew(CUpnpTimeoutElement::EOnce);
         element->SetTimeout(aMessage->CacheControl());
         element->SetLocal(EFalse);
-        iElementArray.AppendL(element);
+        iElementArray.Append(element);
         
         CleanupStack::Pop(); // element
         }

@@ -30,9 +30,9 @@
 #include "upnpcustomlog.h"
 
 
-#include <xml/dom/xmlengdom.h>
-#include <xml/dom/xmlengdocument.h>
-#include <xml/dom/xmlengserializationoptions.h>
+#include <xmlengdom.h>
+#include <xmlengdocument.h>
+#include <xmlengserializationoptions.h>
 
 
 

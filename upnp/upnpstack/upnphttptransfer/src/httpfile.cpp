@@ -231,7 +231,7 @@ void CHttpFile::SetHeaderL( const TDesC8& aFieldName,
             }
         }
 
-     iHeaderArray.AppendL( CHttpHeader::NewL( aFieldName, aFieldValue ) );
+    iHeaderArray.Append( CHttpHeader::NewL( aFieldName, aFieldValue ) );
     }
 
 // --------------------------------------------------------------------------

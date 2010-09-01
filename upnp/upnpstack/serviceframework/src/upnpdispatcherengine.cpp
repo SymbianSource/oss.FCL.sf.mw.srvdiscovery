@@ -174,7 +174,7 @@ void CUpnpDispatcherEngine::AddCustomer( const MUpnpDispatcherCustomer& aCustome
     // adds a new customer for CUpnpDispatcherEngine
     if ( iCustomers.Find( &aCustomer ) == KErrNotFound )
         {
-        TRAP_IGNORE(iCustomers.AppendL( &aCustomer ));
+        iCustomers.Append( &aCustomer );
         }
     }
 // -----------------------------------------------------------------------------
@@ -352,7 +352,7 @@ TInt CUpnpDispatcherEngine::DevicesReceivedL()
             CleanupClosePushL( currServs );
             for ( TInt j = 0; j < iDevs[i].iServiceCount; j++ )
                 {
-                currServs.AppendL( (const TUpnpService*)&iServs[servIndex+j] );
+                currServs.Append( (const TUpnpService*)&iServs[servIndex+j] );
                 }
             CleanupStack::Check(&currServs);
             servIndex += iDevs[i].iServiceCount;
@@ -366,7 +366,7 @@ TInt CUpnpDispatcherEngine::DevicesReceivedL()
             currServs.Reset();
             CleanupStack::Pop( &currServs );
 
-            iNewDevices.AppendL( device );
+            iNewDevices.Append( device );
             }
 
         delete[] iDevs;
@@ -542,7 +542,7 @@ void CUpnpDispatcherEngine::AddLocalDeviceL( const TDesC8& aUuid,
         request->AddServices(array);
 
         CleanupStack::Pop(request);
-        iPendingRequests.AppendL(request);
+        iPendingRequests.Append(request);
         }
     }
 
@@ -693,7 +693,7 @@ void CUpnpDispatcherEngine::SsdpSearchL( const TDesC8& aString )
         request->AddArgumentL( aString );
 
         CleanupStack::Pop(request);
-        iPendingRequests.AppendL(request);
+        iPendingRequests.Append(request);
         }
     }
 
@@ -837,7 +837,7 @@ void CUpnpDispatcherEngine::RemoveLocalDeviceL( const TDesC8& aUuid, TBool aSile
             }
 
         CleanupStack::Pop(request);
-        iPendingRequests.AppendL(request);
+        iPendingRequests.Append(request);
         }
     }
 

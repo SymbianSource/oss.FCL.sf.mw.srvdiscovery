@@ -217,6 +217,7 @@ EXPORT_C CUpnpSoapMessage* RUpnpSoapMessageFactory::SoapRequestL(CUpnpAction* aA
     
     CUpnpHttpHeader* hdr = hdrList->First();
     
+    
     while ( hdr )
     {
      TBool flag = EFalse;

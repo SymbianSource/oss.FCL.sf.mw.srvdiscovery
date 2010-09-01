@@ -19,7 +19,7 @@
 // INCLUDE FILES
 
 #include <e32math.h>
-#include <xml/dom/xmlengdom.h> 
+#include <xmlengdom.h> 
 
 #include "upnpfileutils.h"
 #include "upnpicon.h"

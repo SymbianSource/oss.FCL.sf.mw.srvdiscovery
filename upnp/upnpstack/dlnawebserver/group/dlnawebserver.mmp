@@ -87,6 +87,7 @@ LIBRARY                    radaclient.lib
 
 
 //Max file size related libs
+LIBRARY                    commonui.lib
 
 LIBRARY                    flogger.lib
 DEFFILE                    DLNAwebserver
