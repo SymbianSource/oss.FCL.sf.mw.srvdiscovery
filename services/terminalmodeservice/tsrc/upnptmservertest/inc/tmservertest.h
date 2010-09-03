@@ -260,6 +260,7 @@ public: // New functions
     TInt HandleGetAppListActionInvalidArg5L(TTestResult& aResult );
     TInt HandleInvalidProfileIdGetAppListActionL ( TTestResult& aResult );
     TInt HandleGetAppListActionOperationRejectedL ( TTestResult& aResult );
+    TInt HandleGetAppListActionWildCardFilterL ( TTestResult& aResult );
     TInt HandleGetAppListActionNoFilterL ( TTestResult& aResult );
     TInt HandleGetAppStatusActionL( TTestResult& aResult );
     TInt HandleWildcardGetAppStatusActionL( TTestResult& aResult );

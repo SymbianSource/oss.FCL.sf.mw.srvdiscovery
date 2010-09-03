@@ -1,5 +1,5 @@
 /** @file
- * Copyright (c) 2005-2008 Nokia Corporation and/or its subsidiary(-ies). 
+ * Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies). 
  * All rights reserved.
  * This component and the accompanying materials are made available
  * under the terms of "Eclipse Public License v1.0"
@@ -354,6 +354,12 @@ protected:
     
     // If the interface goes to AutoIp address
     TBool iAutoIP;
+    
+    // Stores the error code for the socket failure operations
+    TInt iLastSocketError;
+    
+    // Indicates whether socket is alive or destroyed 
+    TBool iSocketDown;
     };
 
 #endif // C_CUPNPUDPSERVER_H

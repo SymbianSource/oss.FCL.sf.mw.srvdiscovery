@@ -193,8 +193,8 @@ const TDesC8& CUpnpTmServerImpl::GetApplicationListL( const TDesC8& aAppListFilt
             AppendDataL(KAppListStart);
             for ( TInt i(0) ; i < iAppStore->AppIdArray().Count(); i++)
                  {
-                 // There can be 2 conditions assoicated with this
-                 // 1.  AppListingFilter is "*"
+                 // There can be 2 conditions associated with this
+                 // 1.  AppListingFilter value is "*" or empty 
                  // 2.  AppListingFilter has some filter string set
                  const RArray<TUint>& profileIdList = iAppStore->FetchRemotableApp(i).AllowedProfileIdList();
                  if ( ( profileIdList.Find(aProfileId) != KErrNotFound ) ||
@@ -216,9 +216,10 @@ const TDesC8& CUpnpTmServerImpl::GetApplicationListL( const TDesC8& aAppListFilt
                  }
             if ( ( filterStringFound == KErrNotFound ) || ( (iFilteredAppList->SignatureElement()).Length() != KErrNone ))
                 {
-                // Append the xml signature value to the response buffer if
-                // 1. Filter string contains the signature element
-                // 2. Filter value is '*'
+                // Append the xml signature value to the response buffer only if
+                // 1. Filter string contains the signature element or
+                // 2. Filter value is '*' or
+                // 3. Filter value is empty
                 AppendDataL(XmlSignature());
                 }
             AppendDataL(KAppListEnd);        
@@ -1043,10 +1044,10 @@ void CUpnpTmServerImpl::CreateEventMessageL( const RArray<TUint>& aIdList )
 // @return  Returns corresponding descriptor value
 // ---------------------------------------------------------------------------------
 //
-const TDesC8& CUpnpTmServerImpl::ConvertIntToDescriptor( TInt aIntVal )
+const TDesC8& CUpnpTmServerImpl::ConvertIntToDescriptor( TUint aIntVal )
     {
     OstTraceFunctionEntry0( CUPNPTMSERVERIMPL_CONVERTINTTODESCRIPTOR_ENTRY );
-    OstTrace1( TRACE_NORMAL, CUPNPTMSERVERIMPL_CONVERTINTTODESCRIPTOR, "CUpnpTmServerImpl::ConvertIntToDescriptor;aIntVal=%d", aIntVal );
+    OstTrace1( TRACE_NORMAL, CUPNPTMSERVERIMPL_CONVERTINTTODESCRIPTOR, "CUpnpTmServerImpl::ConvertIntToDescriptor;aIntVal=%u", aIntVal );
     iBufVal.Num( aIntVal );
     OstTraceFunctionExit0( CUPNPTMSERVERIMPL_CONVERTINTTODESCRIPTOR_EXIT );
     return iBufVal;

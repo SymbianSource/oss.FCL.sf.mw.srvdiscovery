@@ -187,11 +187,13 @@ TUpnpErrorCode CUpnpTmAppServerService::GetAppListActionL( CUpnpAction* aAction 
    // Fetch the value for app listing filter argument
    const TDesC8& filter = aAction->ArgumentValue(KAppFilter);
    // Validate the AppListing filter string
-   // AppListingFilter input argument can contain wither wildcard(*) or
-   // a well formatted string
-   if ( ( filter.Compare(KWildCard ) != KErrNone ) && ( filter.Find(Keq) == KErrNotFound ))
+   // AppListingFilter input argument can contain one of these: <1> an empty string ("")  
+   // <2> wildcard(*)  <3> a well formatted filter string 
+   if ( ( filter.Compare(KNullDesC8()) != KErrNone ) && ( filter.Compare(KWildCard ) != KErrNone ) 
+        && ( filter.Find(Keq) == KErrNotFound ) )
        {
-       // The filter string is having neither wildcard(*) nor a proper string( =" is missing )
+       // AppListingFilter argument is not having empty string ( "" ) , or wildcard(*) , 
+       // or a valid filter string( =" is missing )
        OstTrace0( TRACE_ERROR, DUP2_CUPNPTMAPPSERVERSERVICE_GETAPPLISTACTIONL, "CUpnpTmAppServerService::GetAppListActionL" );   
        return EInvalidArgs;  // invalid AppListingFilter argument
        }

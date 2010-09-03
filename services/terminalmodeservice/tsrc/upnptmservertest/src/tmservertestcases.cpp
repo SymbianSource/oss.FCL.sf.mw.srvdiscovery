@@ -160,6 +160,7 @@ const TCaseInfo CTmServerTest::Case (
         ENTRY( "Handle GetAppList Command with Filter2", CTmServerTest:: HandleGetAppListActionFilter2L ),
         ENTRY( "Handle GetAppList Command with Filter3", CTmServerTest:: HandleGetAppListActionFilter3L ),  
         ENTRY( "Handle GetAppList Command with Filter4", CTmServerTest:: HandleGetAppListActionFilter4L ), 
+        ENTRY( "Handle GetAppList Command with WildCard Filter", CTmServerTest:: HandleGetAppListActionWildCardFilterL ), 
         ENTRY( "Handle GetAppList Command with No Filter", CTmServerTest:: HandleGetAppListActionNoFilterL ), 
         ENTRY( "Handle GetAppList Command with Invalid Arg1", CTmServerTest:: HandleGetAppListActionInvalidArg1L ), 
         ENTRY( "Handle GetAppList Command with Invalid Arg2", CTmServerTest:: HandleGetAppListActionInvalidArg2L ),
@@ -191,7 +192,7 @@ const TCaseInfo CTmServerTest::Case (
         // OOM Testcases    
         OOM_ENTRY( "[OOM_StartTmServerDevice]", CTmServerTest::StartTmServerDeviceL,ETrue,1,5 ),
         OOM_ENTRY( "[OOM_HandleGetAppListWithFilter]", CTmServerTest:: HandleGetAppListActionFilter1L,ETrue,1,5 ),
-        OOM_ENTRY( "[OOM_HandleGetAppListWithoutFilter]", CTmServerTest:: HandleGetAppListActionNoFilterL,ETrue,1,5 ),
+        OOM_ENTRY( "[OOM_HandleGetAppListWildCardFilter]", CTmServerTest:: HandleGetAppListActionWildCardFilterL,ETrue,1,5 ),
         OOM_ENTRY( "[OOM_HandleSetClientProfileCommand]", CTmServerTest:: HandleSetClientProfileActionL,ETrue,1,5 ),
         OOM_ENTRY( "[OOM_HandleGetAppStatusCommand]", CTmServerTest:: HandleGetAppStatusActionL,ETrue,1,5 ),
         OOM_ENTRY( "[OOM_HandleGetAppStatusForAllApplications]", CTmServerTest::HandleWildcardGetAppStatusActionL,ETrue,1,5 ),
@@ -2236,9 +2237,9 @@ TInt CTmServerTest::HandleGetAppListActionInvalidArg5L ( TTestResult& aResult )
     return KErrNone;
     }
 
-TInt CTmServerTest::HandleGetAppListActionNoFilterL ( TTestResult& aResult )
+TInt CTmServerTest::HandleGetAppListActionWildCardFilterL ( TTestResult& aResult )
     {
-    _LIT( KLogInfo, "Handle GetAppList Command With No Filter" );
+    _LIT( KLogInfo, "Handle GetAppList Command With WildCard Filter" );
     iLog->Log( KLogInfo );
     
     iTmServerDeviceType = ETrue;
@@ -2270,6 +2271,60 @@ TInt CTmServerTest::HandleGetAppListActionNoFilterL ( TTestResult& aResult )
     CActiveScheduler::Start();      
     if (iGetAppList)
         {
+        _LIT( KDescription , "GetAppList Command With WildCard Filter handled successfully");
+        aResult.SetResult( KErrNone, KDescription );
+        iLog->Log( KDescription );
+        }
+    else
+        {
+        aResult.iResult = KErrGeneral;
+        _LIT( KDescription , "GetAppList Command With WildCard Filter handling Failed");
+        aResult.SetResult( KErrNone, KDescription );
+        iLog->Log( KDescription );
+        }
+    delete iDiscoveryTestTimer;
+    iDiscoveryTestTimer = NULL;
+    delete iTestTimer;
+    iTestTimer = NULL;
+    REComSession::FinalClose();
+    return KErrNone;
+    }
+
+TInt CTmServerTest::HandleGetAppListActionNoFilterL ( TTestResult& aResult )
+    {
+    _LIT( KLogInfo, "Handle GetAppList Command With No Filter" );
+    iLog->Log( KLogInfo );
+    
+    iTmServerDeviceType = ETrue;
+
+    //Sets the information associated with the terminal mode server device
+    SetTmServerSettingsL();
+    iTmServer = CUpnpTmServer::NewL( *iTmServerDeviceInfo, *this ); 
+
+    //Register all the desired applications
+    RegisterApplicationsL(*iTmServer);    
+    
+    //Start the tmserver device and its services
+    iTmServer->StartL();   
+    
+    //Start the control point and search for device
+    iSearchDevice = CDiscoverDevice::NewL(*this);    
+    iDiscoveryTestTimer = CDiscoveryTestTimer::NewL(*this);
+    iDiscoveryTestTimer->AfterDiscovery(15);
+    CActiveScheduler::Start(); 
+
+    if ( iDeviceVerified  )
+        {
+         _LIT8(KNoFilter, " ");
+         //Retrieve the list of applications
+         iSearchDevice->GetAppListActionL( KNoFilter(),KProfileIdValue);
+        }
+    
+    iTestTimer = CTestTimer::NewL(*this);
+    iTestTimer->After(15);
+    CActiveScheduler::Start();      
+    if (iGetAppList)
+        {
         _LIT( KDescription , "GetAppList Command With No Filter handled successfully");
         aResult.SetResult( KErrNone, KDescription );
         iLog->Log( KDescription );
@@ -2287,7 +2342,7 @@ TInt CTmServerTest::HandleGetAppListActionNoFilterL ( TTestResult& aResult )
     iTestTimer = NULL;
     REComSession::FinalClose();
     return KErrNone;
-    }
+    }   
 
 TInt CTmServerTest::HandleInvalidProfileIdGetAppListActionL ( TTestResult& aResult )
     {
