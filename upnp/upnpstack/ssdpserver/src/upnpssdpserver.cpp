@@ -1,5 +1,5 @@
 /** @file
-* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -136,6 +136,7 @@ EXPORT_C CUpnpSsdpServer::~CUpnpSsdpServer()
 //
 void CUpnpSsdpServer::MessageFromMulticastL( CUpnpSsdpMessage* aMessage )
     {
+    ASSERT ( !iSocketDown );
     UdpMessageReceivedL( aMessage );
     }
 
@@ -239,6 +240,11 @@ EXPORT_C void CUpnpSsdpServer::Stop()
 EXPORT_C void CUpnpSsdpServer::AdvertiseAliveL( CUpnpDeviceLibraryElement& aDev )
     {
     LOGS( "SSDP *** AdvertiseAliveL");
+    if ( iSocketDown )
+        {
+        // Leaves if the UDP socket is destroyed
+        User::Leave(iLastSocketError);
+        }
     // advertise this device
     SingleDeviceAdvertiseAliveL( aDev );
     SingleDeviceAdvertiseAliveL( aDev );
@@ -251,6 +257,11 @@ EXPORT_C void CUpnpSsdpServer::AdvertiseAliveL( CUpnpDeviceLibraryElement& aDev 
 //
 EXPORT_C void CUpnpSsdpServer::AdvertiseByebyeL( CUpnpDeviceLibraryElement& aDev )
     {
+    if ( iSocketDown )
+        {
+        // Leaves if the UDP socket is destroyed
+        User::Leave(iLastSocketError);
+        }
     SingleDeviceAdvertiseByebyeL( aDev );
     }
 
@@ -261,6 +272,11 @@ EXPORT_C void CUpnpSsdpServer::AdvertiseByebyeL( CUpnpDeviceLibraryElement& aDev
 //
 EXPORT_C void CUpnpSsdpServer::SearchL( TDesC8& aTarget )
     {
+    if ( iSocketDown )
+        {
+        // Leaves if the UDP socket is destroyed
+        User::Leave(iLastSocketError);
+        }
     SearchL(aTarget, (TDesC8&)UpnpSSDP::KDefaultResponseDelay());
     }
 
@@ -271,6 +287,11 @@ EXPORT_C void CUpnpSsdpServer::SearchL( TDesC8& aTarget )
 //
 EXPORT_C void CUpnpSsdpServer::SearchL( TDesC8& aTarget, TDesC8& aMaximumWaitTime )
     {
+    if ( iSocketDown )
+        {
+        // Leaves if the UDP socket is destroyed
+        User::Leave(iLastSocketError);
+        }
     CUpnpSsdpMessage* msg = RUpnpSsdpMessageFactory::SearchL( aTarget );
     CleanupStack::PushL( msg );
     msg->AddMxL(aMaximumWaitTime);

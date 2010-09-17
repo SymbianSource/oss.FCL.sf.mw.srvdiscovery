@@ -69,7 +69,7 @@ public:
     void StopDeviceL();
     CUpnpRemotableApp& GetRemotableApp( TUint aAppId, TInt& aErr );
     void GenerateUrlComponents( CUpnpHttpServerSession& aHttpServerSession );
-    const TDesC8& ConvertIntToDescriptor( TInt aIntVal );
+    const TDesC8& ConvertIntToDescriptor( TUint aIntVal );
     
 public:
     //Action handling methods

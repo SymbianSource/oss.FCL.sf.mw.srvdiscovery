@@ -1,5 +1,5 @@
 /** @file
-* Copyright (c) 2005-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -60,10 +60,12 @@ void CleanupArray( TAny* aArray )
 CUpnpUdpServer::CUpnpUdpServer( RSocketServ* aSocketServ,
                         MUpnpUdpServerObserver* aObserver,
                         TInt aListeningPort )
-    : CActive( EPriorityHigh ),
+    : CActive( EPriorityStandard ),
       iMulticastFlags( 0 ),
       iMessagePtr( NULL, 0,0 ),
-      iIsStarted( EFalse )
+      iIsStarted( EFalse ),
+      iSocketDown( EFalse )
+      
     {
     LOGS( "SSDP *** CUpnpUdpServer::CUpnpUdpServer");
 
@@ -370,19 +372,29 @@ void CUpnpUdpServer::ReceiveL()
 //
 void CUpnpUdpServer::RunL()
     {
-
-    if ( iStatus.Int() != KErrNone )
+    TInt socketStatus = iStatus.Int();
+    LOGS1( "SSDP *** CUpnpUdpServer::RunL - UDPServer error, error code: %d", socketStatus );
+    
+    if ( socketStatus != KErrNone )
         {
-        LOGS1( "SSDP *** CUpnpUdpServer::RunL - UDPServer error, error code: %d",
-            iStatus.Int() );
-
-        if ( iStatus.Int() != KErrCancel )
+        if ( ( socketStatus == KErrConnectionTerminated ) || ( socketStatus == KErrCannotFindProtocol )
+               || ( socketStatus == KErrDisconnected ) )
             {
-            ReceiveL();
+            // When the WLAN newtork is lost or NCM cable is un-plugged, socket gets destroyed
+            // and no send-receive operation can be performed over this socket.Hence simply
+            // returning from RunL and setting the flag to true so that no further advertisement 
+            // or search operations are carried over the dead socket.
+            iSocketDown = ETrue;
+            iLastSocketError = socketStatus;
+            }
+        else if ( socketStatus == KErrCancel )
+            {
+            // Send the pending request msgs 
+            RestartOrContinueSendProcessingL();
             }
         else
             {
-            RestartOrContinueSendProcessingL();
+            ReceiveL();;
             }
         }
     else
